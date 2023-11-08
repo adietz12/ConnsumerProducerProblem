@@ -30,7 +30,7 @@ void consumer() {
 
 int main() {
     // Create and initialize shared memory segment
-    int shm_fd = shm_open("/my_shared_memory", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+    int shm_fd = shm_open("/consumerproducer", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
     ftruncate(shm_fd, BUFFER_SIZE * sizeof(int));
     buffer = static_cast<int*>(mmap(nullptr, BUFFER_SIZE * sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0));
 
@@ -47,7 +47,7 @@ int main() {
     sem_unlink("/full");
 
     munmap(buffer, BUFFER_SIZE * sizeof(int));
-    shm_unlink("/my_shared_memory");
+    shm_unlink("/consumerproducer");
 
     return 0;
 }
