@@ -1,4 +1,4 @@
-# ConnsumerProducerProblem
+# ConsumerProducerProblem
 OS project 1 by Anthony Dietz
 
 This project demonstrates a solution to the classic producer-consumer problem using shared memory and semaphores in C++. The project is split into two source files: `producer.cpp` and `consumer.cpp`, which work together to produce and consume items through shared memory.
@@ -18,6 +18,7 @@ g++ -o producer producer.cpp -lpthread -lrt
 g++ -o consumer consumer.cpp -lpthread -lrt
 ./producer
 ./consumer
+```
 
 ##Example
 ![image](https://github.com/adietz12/ConnsumerProducerProblem/assets/150217383/4739f3f1-bcb6-4441-859c-9a24f880dc23)
