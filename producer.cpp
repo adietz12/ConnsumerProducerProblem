@@ -6,9 +6,9 @@
 #include <sys/mman.h>
 #include "shared.h"
 
-const int BUFFER_SIZE = 2;
-int* buffer;
-int in = 0;
+const int BUFFER_SIZE = 2; //Size of ftable
+int* buffer; //Pointer to buffer
+int in = 0; //Index of buffer
 
 sem_t* empty;
 sem_t* full;
@@ -31,23 +31,26 @@ void producer() {
 int main() {
     // Create and initialize shared memory segment
     int shm_fd = shm_open("/consumerproducer", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-    ftruncate(shm_fd, BUFFER_SIZE * sizeof(int));
-    buffer = static_cast<int*>(mmap(nullptr, BUFFER_SIZE * sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0));
+    ftruncate(shm_fd, BUFFER_SIZE * sizeof(int)); //Sets size of shared memory to accomdate buffer
+    buffer = static_cast<int*>(mmap(nullptr, BUFFER_SIZE * sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0));  //Maps shared memory into address space 
 
-    empty = sem_open("/empty", O_CREAT, S_IRUSR | S_IWUSR, BUFFER_SIZE);
-    full = sem_open("/full", O_CREAT, S_IRUSR | S_IWUSR, 0);
+
+    empty = sem_open("/empty", O_CREAT, S_IRUSR | S_IWUSR, BUFFER_SIZE); //Semaphore to control empty slots in buffer
+    full = sem_open("/full", O_CREAT, S_IRUSR | S_IWUSR, 0); //Semaphore to control full slots in buffer
 
     std::thread producer_thread(producer);
 
     producer_thread.join();
     //Closes semaphores and unlinks them from shared memory
-    sem_close(empty);
-    sem_close(full);
+    
+    sem_close(empty); //Close and unlink the empty semaphore
+    sem_close(full); //Close and unlink the full semaphore
     sem_unlink("/empty");
     sem_unlink("/full");
 
-    munmap(buffer, BUFFER_SIZE * sizeof(int)); //Unmaps shared memory
-    shm_unlink("/consumerproducer");
+    munmap(buffer, BUFFER_SIZE * sizeof(int)); //Unmaps shared memory //Unmap the shared memory from the process
+    shm_unlink("/consumerproducer"); //Unlink the shared memory
+
 
     return 0;
 }
