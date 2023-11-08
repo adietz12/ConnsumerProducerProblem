@@ -20,7 +20,9 @@ g++ -o consumer consumer.cpp -lpthread -lrt
 ./consumer
 ```
 
-##Example
+## Example
+
 ![image](https://github.com/adietz12/ConnsumerProducerProblem/assets/150217383/4739f3f1-bcb6-4441-859c-9a24f880dc23)
 ![image](https://github.com/adietz12/ConnsumerProducerProblem/assets/150217383/cb09dc0f-0d01-49b5-a9d2-e6f1cf3edab6)
+
 These two images show both programs running concurrently in separate terminals.
