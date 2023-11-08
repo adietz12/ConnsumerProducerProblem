@@ -16,4 +16,5 @@ To compile the programs, you can use the `g++` compiler on a Linux system. I ran
 ```bash
 g++ -o producer producer.cpp -lpthread -lrt
 g++ -o consumer consumer.cpp -lpthread -lrt
-
+./producer
+./consumer
